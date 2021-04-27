@@ -6,7 +6,7 @@ Read about progress on our [blog](http://mech-lang.org/blog/), follow us on Twit
 
 ## Provided Tables
 
-- `#system/exit[]`
+- `#system/exit[|exit-code|]`
 
 ## License
 

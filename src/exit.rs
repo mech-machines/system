@@ -14,11 +14,9 @@ lazy_static! {
 
 export_machine!(system_exit, system_exit_reg);
 
-extern "C" fn system_exit_reg(registrar: &mut dyn MachineRegistrar, outgoing: Sender<RunLoopMessage>) -> Vec<Change> {
+extern "C" fn system_exit_reg(registrar: &mut dyn MachineRegistrar, outgoing: Sender<RunLoopMessage>) -> String {
   registrar.register_machine(Box::new(Exit{outgoing}));
-  vec![
-    Change::NewTable{table_id: *SYSTEM_EXIT, rows: 0, columns: 0},
-  ]
+  "#system/exit = [|exit-code|]".to_string()
 }
 
 #[derive(Debug)]
