@@ -35,21 +35,25 @@ impl Machine for Exit {
   }
 
   fn on_change(&mut self, table: &Table) -> Result<(), String> {
-    let (value, _) = table.get_unchecked(1,1);
-    match value.value_type() {
-      ValueType::Quantity => {
-        let exit_code = value.as_i64().unwrap() as i32;
-        self.outgoing.send(RunLoopMessage::Exit(exit_code));
+    match table.get(&TableIndex::Index(1),&TableIndex::Index(1)) {
+      Some((value,_)) => {
+        match value.value_type() {
+          ValueType::Quantity => {
+            let exit_code = value.as_i64().unwrap() as i32;
+            self.outgoing.send(RunLoopMessage::Exit(exit_code));
+          }
+          ValueType::Boolean => {
+            let exit_code = value.as_bool().unwrap() as i32;
+            self.outgoing.send(RunLoopMessage::Exit(exit_code));
+          }
+          ValueType::NumberLiteral => {
+            // TODO print number literals
+            self.outgoing.send(RunLoopMessage::Exit(0));
+          }
+          _ => {self.outgoing.send(RunLoopMessage::Exit(0));}
+        }
       }
-      ValueType::Boolean => {
-        let exit_code = value.as_bool().unwrap() as i32;
-        self.outgoing.send(RunLoopMessage::Exit(exit_code));
-      }
-      ValueType::NumberLiteral => {
-        // TODO print number literals
-        self.outgoing.send(RunLoopMessage::Exit(0));
-      }
-      _ => {self.outgoing.send(RunLoopMessage::Exit(0));}
+      None => (),
     }
     Ok(())
   }
