@@ -1,0 +1,4 @@
+# system/input-arguments
+
+Define the input argument table. This table will be populated by the Mech runtime with the arguments that are passed into the program. There will be one argument per row, and they will each have a String type.
+  #system/input-arguments = [|arguments|]
