@@ -11,8 +11,9 @@ Handle various interactions with the system.
 
 ## Info
 
-  #io-streams/machine = [name: "system" 
-                         version: "v0.0.1"
-                         authors: "Corey Montella" 
-                         url: "https://gitlab/com/mech-lang/machines/system"
-                         license: "Apache-2.0"]
+  #system/machine = [
+    name: "system" 
+    version: "v0.0.1"
+    authors: "Corey Montella" 
+    url: "https://gitlab/com/mech-lang/machines/system"
+    license: "Apache-2.0"]
