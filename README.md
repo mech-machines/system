@@ -7,6 +7,7 @@ Read about progress on our [blog](http://mech-lang.org/blog/), follow us on Twit
 ## Provided Tables
 
 - `#system/exit[|exit-code|]`
+- `#system/input-arguments[|arguments|]`
 
 ## License
 
