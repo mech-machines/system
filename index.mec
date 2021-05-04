@@ -1,0 +1,18 @@
+# system
+
+## Description
+
+Handle various interactions with the system.
+
+## Provided Tables
+
+- `#system/exit[|exit-code|]`
+- `#system/input-arguments[|arguments|]`
+
+## Info
+
+  #io-streams/machine = [name: "system" 
+                         version: "v0.0.1"
+                         authors: "Corey Montella" 
+                         url: "https://gitlab/com/mech-lang/machines/system"
+                         license: "Apache-2.0"]
