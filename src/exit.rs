@@ -1,6 +1,6 @@
 extern crate crossbeam_channel;
-use mech_core::{hash_string, TableIndex, Table, Value, ValueType, ValueMethods, Transaction, Change, TableId, Register};
-use mech_utilities::{Machine, MachineRegistrar, RunLoopMessage};
+use mech_core::*;
+use mech_utilities::*;
 //use std::sync::mpsc::{self, Sender};
 use std::thread::{self};
 use crossbeam_channel::Sender;
@@ -9,14 +9,14 @@ use std::io;
 use std::io::prelude::*;
 
 lazy_static! {
-  static ref SYSTEM_EXIT: u64 = hash_string("system/exit");
+  static ref SYSTEM_EXIT: u64 = hash_str("system/exit");
 }
 
 export_machine!(system_exit, system_exit_reg);
 
 extern "C" fn system_exit_reg(registrar: &mut dyn MachineRegistrar, outgoing: Sender<RunLoopMessage>) -> String {
   registrar.register_machine(Box::new(Exit{outgoing}));
-  "#system/exit = [|exit-code|]".to_string()
+  "#system/exit = [|exit-code<_>|]".to_string()
 }
 
 #[derive(Debug)]
@@ -31,29 +31,20 @@ impl Machine for Exit {
   }
 
   fn id(&self) -> u64 {
-    Register{table_id: TableId::Global(*SYSTEM_EXIT), row: TableIndex::All, column: TableIndex::All}.hash()
+    hash_str(&self.name())
   }
 
-  fn on_change(&mut self, table: &Table) -> Result<(), String> {
-    match table.get(&TableIndex::Index(1),&TableIndex::Index(1)) {
-      Some((value,_)) => {
-        match value.value_type() {
-          ValueType::Quantity => {
-            let exit_code = value.as_i64().unwrap() as i32;
-            self.outgoing.send(RunLoopMessage::Exit(exit_code));
-          }
-          ValueType::Boolean => {
-            let exit_code = value.as_bool().unwrap() as i32;
-            self.outgoing.send(RunLoopMessage::Exit(exit_code));
-          }
-          ValueType::NumberLiteral => {
-            // TODO print number literals
-            self.outgoing.send(RunLoopMessage::Exit(0));
-          }
-          _ => {self.outgoing.send(RunLoopMessage::Exit(0));}
-        }
+  fn on_change(&mut self, table: &Table) -> Result<(), MechError> {
+    match table.get(&TableIndex::Index(1),&TableIndex::Index(1))? {
+      Value::F32(value) => {
+        let exit_code: i32 = <F32>::into(value);
+        self.outgoing.send(RunLoopMessage::Exit(exit_code));
       }
-      None => (),
+      Value::Bool(value) => {
+        let exit_code = if value == true {0} else {1};
+        self.outgoing.send(RunLoopMessage::Exit(exit_code));
+      }
+      _ => {self.outgoing.send(RunLoopMessage::Exit(0));}
     }
     Ok(())
   }
