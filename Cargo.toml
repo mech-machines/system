@@ -9,6 +9,7 @@ repository = "https://github.com/mech-machines/system"
 keywords = ["mech", "language", "programming"]
 license = "Apache-2.0"
 readme = "README.md"
+edition = "2021"
 
 [badges]
 gitlab = { repository = "mech-lang/machines/system", branch = "main" }
@@ -21,5 +22,5 @@ crate-type = ["dylib", "rlib"]
 mech-core = {git = "https://gitlab.com/mech-lang/core", branch = "v0.1-beta"}
 mech-utilities = {git = "https://gitlab.com/mech-lang/utilities", branch = "v0.1-beta"}
 
-crossbeam-channel = "0.5.1"
+crossbeam-channel = "0.5.6"
 lazy_static = "1.4.0"
