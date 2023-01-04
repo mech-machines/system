@@ -1,19 +1,23 @@
-# system
+system
+=======
 
-## Description
+1. Description
+---------------
 
 Handle various interactions with the system.
 
-## Provided Tables
+2. Provided Tables
+-------------------
 
-- `#system/exit[|exit-code|]`
-- `#system/input-arguments[|arguments|]`
+- `#system/exit[|exit-code<_>|]`
+- `#system/input-arguments[|arguments<string>|]`
 
-## Info
+3. Info
+--------
 
-  #system/machine = [
-    name: "system" 
-    version: "v0.0.1"
-    authors: "Corey Montella" 
-    url: "https://gitlab.com/mech-lang/machines/system"
-    license: "Apache-2.0"]
+#system/machine = [
+  name: "system" 
+  version: "v0.1.0"
+  authors: "Corey Montella" 
+  url: "https://gitlab.com/mech-lang/machines/system"
+  license: "Apache-2.0"]
